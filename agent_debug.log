@@ -1,0 +1,122 @@
+2025-09-24 12:08:59,322 - sip-lifecycle-agent - INFO - Participant agent-AJ_efaiwkBKVcXD attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:08:59,322 - sip-lifecycle-agent - INFO - Participant agent-AJ_efaiwkBKVcXD attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:08:59,992 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'active'}
+2025-09-24 12:08:59,992 - sip-lifecycle-agent - INFO - SIP Call Status updated: active
+2025-09-24 12:08:59,993 - sip-lifecycle-agent - INFO - Call is now active and connected
+2025-09-24 12:08:59,992 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'active'}
+2025-09-24 12:08:59,992 - sip-lifecycle-agent - INFO - SIP Call Status updated: active
+2025-09-24 12:08:59,993 - sip-lifecycle-agent - INFO - Call is now active and connected
+2025-09-24 12:09:00,045 - sip-lifecycle-agent - INFO - Participant agent-AJ_efaiwkBKVcXD attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:09:00,045 - sip-lifecycle-agent - INFO - Participant agent-AJ_efaiwkBKVcXD attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:09:03,489 - sip-lifecycle-agent - INFO - Participant agent-AJ_efaiwkBKVcXD attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:09:03,489 - sip-lifecycle-agent - INFO - Participant agent-AJ_efaiwkBKVcXD attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:09:26,991 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'hangup'}
+2025-09-24 12:09:26,992 - sip-lifecycle-agent - INFO - SIP Call Status updated: hangup
+2025-09-24 12:09:26,992 - sip-lifecycle-agent - INFO - Call has been ended by a participant
+2025-09-24 12:09:26,991 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'hangup'}
+2025-09-24 12:09:26,992 - sip-lifecycle-agent - INFO - SIP Call Status updated: hangup
+2025-09-24 12:09:26,992 - sip-lifecycle-agent - INFO - Call has been ended by a participant
+2025-09-24 12:10:41,499 - sip-lifecycle-agent - INFO - Participant agent-AJ_KNwgagJxaFgB attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:10:41,499 - sip-lifecycle-agent - INFO - Participant agent-AJ_KNwgagJxaFgB attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:10:42,151 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'active'}
+2025-09-24 12:10:42,151 - sip-lifecycle-agent - INFO - SIP Call Status updated: active
+2025-09-24 12:10:42,151 - sip-lifecycle-agent - INFO - Call is now active and connected
+2025-09-24 12:10:42,151 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'active'}
+2025-09-24 12:10:42,151 - sip-lifecycle-agent - INFO - SIP Call Status updated: active
+2025-09-24 12:10:42,151 - sip-lifecycle-agent - INFO - Call is now active and connected
+2025-09-24 12:10:42,225 - sip-lifecycle-agent - INFO - Participant agent-AJ_KNwgagJxaFgB attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:10:42,225 - sip-lifecycle-agent - INFO - Participant agent-AJ_KNwgagJxaFgB attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:10:45,607 - sip-lifecycle-agent - INFO - Participant agent-AJ_KNwgagJxaFgB attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:10:45,607 - sip-lifecycle-agent - INFO - Participant agent-AJ_KNwgagJxaFgB attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:10:55,107 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'hangup'}
+2025-09-24 12:10:55,108 - sip-lifecycle-agent - INFO - SIP Call Status updated: hangup
+2025-09-24 12:10:55,108 - sip-lifecycle-agent - INFO - Call has been ended by a participant
+2025-09-24 12:10:55,107 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'hangup'}
+2025-09-24 12:10:55,108 - sip-lifecycle-agent - INFO - SIP Call Status updated: hangup
+2025-09-24 12:10:55,108 - sip-lifecycle-agent - INFO - Call has been ended by a participant
+2025-09-24 12:11:14,402 - sip-lifecycle-agent - INFO - Participant agent-AJ_KNwgagJxaFgB attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:11:14,402 - sip-lifecycle-agent - INFO - Participant agent-AJ_KNwgagJxaFgB attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:11:32,630 - sip-lifecycle-agent - INFO - Participant agent-AJ_6wdbiCx6dKTH attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:11:32,630 - sip-lifecycle-agent - INFO - Participant agent-AJ_6wdbiCx6dKTH attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:11:33,319 - sip-lifecycle-agent - INFO - Participant agent-AJ_6wdbiCx6dKTH attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:11:33,319 - sip-lifecycle-agent - INFO - Participant agent-AJ_6wdbiCx6dKTH attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:11:33,396 - sip-lifecycle-agent - INFO - Participant sip_+35319081023 attributes changed: {'sip.callStatus': 'active'}
+2025-09-24 12:11:33,396 - sip-lifecycle-agent - INFO - SIP Call Status updated: active
+2025-09-24 12:11:33,396 - sip-lifecycle-agent - INFO - Call is now active and connected
+2025-09-24 12:11:33,396 - sip-lifecycle-agent - INFO - Participant sip_+35319081023 attributes changed: {'sip.callStatus': 'active'}
+2025-09-24 12:11:33,396 - sip-lifecycle-agent - INFO - SIP Call Status updated: active
+2025-09-24 12:11:33,396 - sip-lifecycle-agent - INFO - Call is now active and connected
+2025-09-24 12:11:38,247 - sip-lifecycle-agent - INFO - Participant agent-AJ_6wdbiCx6dKTH attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:11:38,247 - sip-lifecycle-agent - INFO - Participant agent-AJ_6wdbiCx6dKTH attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:11:54,302 - sip-lifecycle-agent - INFO - Participant sip_+35319081023 attributes changed: {'sip.callStatus': 'hangup'}
+2025-09-24 12:11:54,303 - sip-lifecycle-agent - INFO - SIP Call Status updated: hangup
+2025-09-24 12:11:54,303 - sip-lifecycle-agent - INFO - Call has been ended by a participant
+2025-09-24 12:11:54,302 - sip-lifecycle-agent - INFO - Participant sip_+35319081023 attributes changed: {'sip.callStatus': 'hangup'}
+2025-09-24 12:11:54,303 - sip-lifecycle-agent - INFO - SIP Call Status updated: hangup
+2025-09-24 12:11:54,303 - sip-lifecycle-agent - INFO - Call has been ended by a participant
+2025-09-24 12:12:12,100 - sip-lifecycle-agent - INFO - Participant agent-AJ_SGzwzQs6cg8D attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:12:12,100 - sip-lifecycle-agent - INFO - Participant agent-AJ_SGzwzQs6cg8D attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:12:12,787 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'active'}
+2025-09-24 12:12:12,787 - sip-lifecycle-agent - INFO - SIP Call Status updated: active
+2025-09-24 12:12:12,787 - sip-lifecycle-agent - INFO - Call is now active and connected
+2025-09-24 12:12:12,787 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'active'}
+2025-09-24 12:12:12,787 - sip-lifecycle-agent - INFO - SIP Call Status updated: active
+2025-09-24 12:12:12,787 - sip-lifecycle-agent - INFO - Call is now active and connected
+2025-09-24 12:12:12,816 - sip-lifecycle-agent - INFO - Participant agent-AJ_SGzwzQs6cg8D attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:12:12,816 - sip-lifecycle-agent - INFO - Participant agent-AJ_SGzwzQs6cg8D attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:12:17,298 - sip-lifecycle-agent - INFO - Participant agent-AJ_SGzwzQs6cg8D attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:12:17,298 - sip-lifecycle-agent - INFO - Participant agent-AJ_SGzwzQs6cg8D attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:12:32,896 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'hangup'}
+2025-09-24 12:12:32,896 - sip-lifecycle-agent - INFO - SIP Call Status updated: hangup
+2025-09-24 12:12:32,896 - sip-lifecycle-agent - INFO - Call has been ended by a participant
+2025-09-24 12:12:32,896 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'hangup'}
+2025-09-24 12:12:32,896 - sip-lifecycle-agent - INFO - SIP Call Status updated: hangup
+2025-09-24 12:12:32,896 - sip-lifecycle-agent - INFO - Call has been ended by a participant
+2025-09-24 12:16:31,422 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:31,422 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:32,099 - sip-lifecycle-agent - INFO - Participant sip_+35319081023 attributes changed: {'sip.callStatus': 'active'}
+2025-09-24 12:16:32,100 - sip-lifecycle-agent - INFO - SIP Call Status updated: active
+2025-09-24 12:16:32,100 - sip-lifecycle-agent - INFO - Call is now active and connected
+2025-09-24 12:16:32,099 - sip-lifecycle-agent - INFO - Participant sip_+35319081023 attributes changed: {'sip.callStatus': 'active'}
+2025-09-24 12:16:32,100 - sip-lifecycle-agent - INFO - SIP Call Status updated: active
+2025-09-24 12:16:32,100 - sip-lifecycle-agent - INFO - Call is now active and connected
+2025-09-24 12:16:32,123 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:16:32,123 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:16:35,456 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:35,456 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:37,835 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'thinking'}
+2025-09-24 12:16:37,835 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'thinking'}
+2025-09-24 12:16:39,292 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:16:39,292 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:16:42,466 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:42,466 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:48,932 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'thinking'}
+2025-09-24 12:16:48,932 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'thinking'}
+2025-09-24 12:16:49,427 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:49,427 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:49,552 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'thinking'}
+2025-09-24 12:16:49,552 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'thinking'}
+2025-09-24 12:16:50,554 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:16:50,554 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:16:52,570 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:52,570 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:52,703 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'thinking'}
+2025-09-24 12:16:52,703 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'thinking'}
+2025-09-24 12:16:53,343 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:53,343 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:53,384 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'thinking'}
+2025-09-24 12:16:53,384 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'thinking'}
+2025-09-24 12:16:53,914 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:53,914 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:16:54,037 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'thinking'}
+2025-09-24 12:16:54,037 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'thinking'}
+2025-09-24 12:16:55,125 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:16:55,125 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'speaking'}
+2025-09-24 12:17:03,475 - sip-lifecycle-agent - INFO - Participant sip_+35319081023 attributes changed: {'sip.callStatus': 'hangup'}
+2025-09-24 12:17:03,476 - sip-lifecycle-agent - INFO - SIP Call Status updated: hangup
+2025-09-24 12:17:03,476 - sip-lifecycle-agent - INFO - Call has been ended by a participant
+2025-09-24 12:17:03,475 - sip-lifecycle-agent - INFO - Participant sip_+35319081023 attributes changed: {'sip.callStatus': 'hangup'}
+2025-09-24 12:17:03,476 - sip-lifecycle-agent - INFO - SIP Call Status updated: hangup
+2025-09-24 12:17:03,476 - sip-lifecycle-agent - INFO - Call has been ended by a participant
+2025-09-24 12:17:03,650 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
+2025-09-24 12:17:03,650 - sip-lifecycle-agent - INFO - Participant agent-AJ_Kg8UPKmHBUsd attributes changed: {'lk.agent.state': 'listening'}
