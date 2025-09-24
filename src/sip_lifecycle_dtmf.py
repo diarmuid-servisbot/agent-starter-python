@@ -1,8 +1,10 @@
 import asyncio
+import json
 import logging
 import os
 import random
 import uuid
+from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 from livekit.agents import JobContext, WorkerOptions, cli
@@ -45,6 +47,94 @@ function_logger = logging.getLogger("livekit.agents.llm.function_tool")
 function_logger.setLevel(logging.DEBUG)
 function_logger.addHandler(file_handler)
 
+class DeepgramSTTWithVAD(deepgram.STT):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    async def _connect(self, *args, **kwargs):
+        # Call parent connect
+        conn = await super()._connect(*args, **kwargs)
+
+        # Inject Deepgram raw options
+        # (These are passed in the initial streaming request)
+        # See: https://developers.deepgram.com/docs/streaming
+        conn._dg_request["endpointing"] = True
+        conn._dg_request["vad_turnoff"] = 500  # ms after silence
+
+        return conn
+
+
+class LoggingOpenAI(openai.LLM):
+    def __init__(self, *args, **kwargs):
+        # Override with environment variables if provided
+        if 'model' not in kwargs:
+            kwargs['model'] = os.getenv('OPENAI_MODEL', 'gpt-4o-mini')
+        
+        # Set custom base URL if provided
+        if 'base_url' not in kwargs and os.getenv('OPENAI_BASE_URL'):
+            kwargs['base_url'] = os.getenv('OPENAI_BASE_URL')
+        
+        # Set custom API key if provided
+        if 'api_key' not in kwargs and os.getenv('OPENAI_API_KEY'):
+            kwargs['api_key'] = os.getenv('OPENAI_API_KEY')
+            
+        super().__init__(*args, **kwargs)
+        # Create logs directory if it doesn't exist
+        self.logs_dir = Path("llm_logs")
+        self.logs_dir.mkdir(exist_ok=True)
+
+    async def _make_request(self, messages, **kwargs):
+        timestamp = datetime.now()
+        
+        # Create timestamped filename
+        filename = f"llm_call_{timestamp.strftime('%Y%m%d_%H%M%S_%f')[:-3]}.json"
+        log_file = self.logs_dir / filename
+        
+        # Prepare log data
+        log_data = {
+            "timestamp": timestamp.isoformat(),
+            "request": {
+                "messages": messages,
+                "kwargs": kwargs
+            }
+        }
+        
+        # Log input to console
+        print(f"🔵 OpenAI Request [{timestamp.strftime('%H:%M:%S')}]:")
+        for m in messages:
+            content = m.get('content', '')
+            if len(content) > 200:
+                content = content[:200] + "..."
+            print(f"  {m['role']}: {content}")
+
+        try:
+            # Call the parent method
+            response = await super()._make_request(messages, **kwargs)
+            
+            # Add response to log data
+            log_data["response"] = response
+            log_data["status"] = "success"
+            
+            # Log output to console
+            print(f"🟢 OpenAI Response [{timestamp.strftime('%H:%M:%S')}]: Success")
+            
+        except Exception as e:
+            # Log error
+            log_data["error"] = str(e)
+            log_data["status"] = "error"
+            print(f"🔴 OpenAI Error [{timestamp.strftime('%H:%M:%S')}]: {e}")
+            raise
+        
+        finally:
+            # Write to timestamped file
+            try:
+                with open(log_file, 'w') as f:
+                    json.dump(log_data, f, indent=2, default=str)
+            except Exception as e:
+                logger.error(f"Failed to write LLM log to {log_file}: {e}")
+
+        return response
+
 class SIPLifecycleAgent(Agent):
     def __init__(self, job_context=None) -> None:
         self.job_context = job_context
@@ -57,14 +147,21 @@ class SIPLifecycleAgent(Agent):
             logger.error("instructions.txt not found, using default instructions")
             instructions = "You are an AI assistant specializing in mortgage escrow inquiries."
         
+        stt = DeepgramSTTWithVAD(
+            model="nova-2",
+            language="en-US",
+            smart_format=True,
+            punctuate=True,
+            interim_results=True
+        )
+
+        llm = LoggingOpenAI()  # Will use environment variables or defaults
+
         super().__init__(
             instructions=instructions,
-            stt=openai.STT(),
-            llm=openai.LLM(model="gpt-4o-mini"),
-            tts=openai.TTS(),
-            #tts=cartesia.TTS(),
-            #tts=deepgram.TTS(),
-            vad=silero.VAD.load()
+            stt=stt,
+            llm=llm,
+            tts=deepgram.TTS()
         )
 
     @function_tool
