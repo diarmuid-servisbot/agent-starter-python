@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import os
+import random
 import uuid
 from pathlib import Path
 from dotenv import load_dotenv
@@ -13,20 +14,56 @@ from livekit.plugins import deepgram, openai, silero, cartesia
 
 load_dotenv(".env.local")
 
+# Configure file logging
+log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler = logging.FileHandler('agent_debug.log')
+file_handler.setFormatter(log_formatter)
+file_handler.setLevel(logging.DEBUG)
+
+# Configure console logging
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(log_formatter)
+console_handler.setLevel(logging.INFO)
+
+# Set up main logger
 logger = logging.getLogger("sip-lifecycle-agent")
 logger.setLevel(logging.INFO)
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
+
+# Enable debug logging for OpenAI and LLM calls - log to file
+llm_logger = logging.getLogger("livekit.agents.llm")
+llm_logger.setLevel(logging.DEBUG)
+llm_logger.addHandler(file_handler)
+
+openai_logger = logging.getLogger("livekit.plugins.openai")
+openai_logger.setLevel(logging.DEBUG)
+openai_logger.addHandler(file_handler)
+
+# Also log function tool calls
+function_logger = logging.getLogger("livekit.agents.llm.function_tool")
+function_logger.setLevel(logging.DEBUG)
+function_logger.addHandler(file_handler)
 
 class SIPLifecycleAgent(Agent):
     def __init__(self, job_context=None) -> None:
         self.job_context = job_context
+        
+        # Load instructions from file
+        try:
+            with open("instructions.txt", "r") as f:
+                instructions = f.read()
+        except FileNotFoundError:
+            logger.error("instructions.txt not found, using default instructions")
+            instructions = "You are an AI assistant specializing in mortgage escrow inquiries."
+        
         super().__init__(
-            instructions="""
-                You are a helpful assistant demonstrating SIP call lifecycle management.
-                You can add SIP participants and end the call when requested.
-            """,
-            stt=deepgram.STT(),
+            instructions=instructions,
+            stt=openai.STT(),
             llm=openai.LLM(model="gpt-4o-mini"),
-            tts=cartesia.TTS(voice="6f84f4b8-58a2-430c-8c79-688dad597532"),
+            tts=openai.TTS(),
+            #tts=cartesia.TTS(),
+            #tts=deepgram.TTS(),
             vad=silero.VAD.load()
         )
 
@@ -138,6 +175,50 @@ class SIPLifecycleAgent(Agent):
         except Exception as e:
             logger.error(f"Error listing participants: {e}")
             return None, f"Failed to list participants: {e}"
+
+    @function_tool
+    async def play_joke(self, context: RunContext) -> dict:
+        """
+        Function to read and return a random joke from the jokes file.
+        Returns:
+            dict: Response containing the joke, or an error status.
+        """
+        try:
+            with open("jokes/mortgage_jokes.txt", "r") as f:
+                # Split on double newlines to separate jokes
+                jokes = [j.strip() for j in f.read().split("\n\n") if j.strip()]
+                if not jokes:
+                    logger.warning("No jokes found in jokes/mortgage_jokes.txt")
+                    await self.session.say("Sorry, I'm all out of jokes right now!")
+                    return {
+                        "status": "error",
+                        "message": "Sorry, I'm all out of jokes right now!",
+                        "joke": None
+                    }
+                joke = random.choice(jokes)
+                logger.info(f"Selected joke: {joke}")
+                await self.session.say(f"Here's a joke for you! {joke}")
+                return {
+                    "status": "success",
+                    "message": "Here's a joke for you!",
+                    "joke": joke
+                }
+        except FileNotFoundError:
+            logger.error("jokes/mortgage_jokes.txt not found.")
+            await self.session.say("Sorry, I can't seem to find my joke book right now.")
+            return {
+                "status": "error",
+                "message": "Sorry, I can't seem to find my joke book right now.",
+                "joke": None
+            }
+        except Exception as e:
+            logger.error(f"Error reading joke: {e}")
+            await self.session.say("Sorry, I had a little trouble remembering a joke.")
+            return {
+                "status": "error",
+                "message": "Sorry, I had a little trouble remembering a joke.",
+                "joke": None
+            }
             
     async def on_enter(self):
         self.session.generate_reply()

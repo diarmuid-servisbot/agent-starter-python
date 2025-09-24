@@ -68,6 +68,12 @@ In production, use the `start` command:
 uv run python src/agent.py start
 ```
 
+For ths SIP info test use:
+
+```console
+uv run python src/sip_lifecycle_dtmf.py dev
+```
+
 ## Frontend & Telephony
 
 Get started quickly with our pre-built frontend starter apps, or add telephony support:
