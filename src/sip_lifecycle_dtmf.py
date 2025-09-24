@@ -316,7 +316,38 @@ class SIPLifecycleAgent(Agent):
                 "message": "Sorry, I had a little trouble remembering a joke.",
                 "joke": None
             }
-            
+
+
+    @function_tool
+    async def play_dtmf(self, context: RunContext, digits: str) -> dict:
+        """
+        Function to play a sequence of DTMF digits into the current call.
+        Args:
+            context (RunContext): LiveKit agent run context
+            digits (str): Sequence of digits to play, e.g. "123#*"
+        Returns:
+            dict: status and echo of digits played
+        """
+        try:
+            if not digits or not isinstance(digits, str):
+                raise ValueError("Digits must be a non-empty string")
+
+            logger.info(f"Playing DTMF into call: {digits}")
+            await self.session.send_dtmf(digits=digits)
+
+            return {
+                "status": "success",
+                "message": f"Played DTMF digits {digits} into the call.",
+                "digits": digits
+            }
+        except Exception as e:
+            logger.error(f"Error sending DTMF: {e}")
+            return {
+                "status": "error",
+                "message": f"Failed to play DTMF: {e}",
+                "digits": digits
+            }
+                        
     async def on_enter(self):
         self.session.generate_reply()
 
