@@ -14,6 +14,10 @@ from livekit.agents.llm import function_tool
 from livekit.agents.voice import Agent, AgentSession, RunContext
 from livekit.plugins import deepgram, openai, silero, cartesia
 
+from typing import Annotated, Optional
+from pydantic import Field
+from dataclasses import dataclass
+import time
 load_dotenv(".env.local")
 
 # Configure file logging
@@ -46,6 +50,15 @@ openai_logger.addHandler(file_handler)
 function_logger = logging.getLogger("livekit.agents.llm.function_tool")
 function_logger.setLevel(logging.DEBUG)
 function_logger.addHandler(file_handler)
+
+
+@dataclass
+class UserData:
+    """Store user data for the navigator agent."""
+    ctx: JobContext
+    last_dtmf_press: float = 0
+
+RunContext_T = RunContext[UserData]
 
 class DeepgramSTTWithVAD(deepgram.STT):
     def __init__(self, *args, **kwargs):
@@ -141,7 +154,7 @@ class SIPLifecycleAgent(Agent):
         
         # Load instructions from file
         try:
-            with open("instructions.txt", "r") as f:
+            with open("escrow.txt", "r") as f:
                 instructions = f.read()
         except FileNotFoundError:
             logger.error("instructions.txt not found, using default instructions")
@@ -157,11 +170,14 @@ class SIPLifecycleAgent(Agent):
 
         llm = LoggingOpenAI()  # Will use environment variables or defaults
 
+        userdata = UserData(ctx=self.job_context)
+
         super().__init__(
             instructions=instructions,
             stt=stt,
             llm=llm,
-            tts=deepgram.TTS()
+            tts=deepgram.TTS(),
+            min_endpointing_delay=0.75
         )
 
     @function_tool
@@ -318,8 +334,123 @@ class SIPLifecycleAgent(Agent):
             }
 
 
-    @function_tool
-    async def play_dtmf(self, context: RunContext, digits: str) -> dict:
+    @function_tool()
+    async def play_dtmf(
+        self,
+        code: Annotated[int, Field(description="The DTMF code to send to the phone number for the current step.")],
+        context: RunContext_T
+    ) -> None:
+        """Called when you need to send a DTMF code to the phone number for the current step."""
+        current_time = time.time()
+        
+        # Check if enough time has passed since last press (3 second cooldown)
+        if current_time - context.userdata.last_dtmf_press < 3:
+            logger.info("DTMF code rejected due to cooldown")
+            return None
+            
+        logger.info(f"Sending DTMF code {code} to the phone number for the current step.")
+        context.userdata.last_dtmf_press = current_time
+        
+        room = context.userdata.ctx.room
+
+        await room.local_participant.publish_dtmf(
+            code=code,
+            digit=str(code)
+        )
+        await room.local_participant.publish_data(
+            f"{code}",
+            topic="dtmf_code"
+        )
+        return None
+
+
+    async def play_dtmf_yy(self, context: RunContext, digits: str) -> dict:
+        """
+        Play Dual-Tone Multi-Frequency (DTMF) digits into the current active call
+        through the LiveKit session. This simulates pressing keys on a phone
+        keypad and is typically used to interact with IVR (Interactive Voice
+        Response) systems, voicemail menus, or conference bridges that expect
+        keypad input.
+
+        Use this function when:
+        - The caller requests to "press" or "enter" digits, such as
+            "press 1 for sales" or "enter my account number."
+        - An IVR system prompts for input using numeric or special characters
+            (0–9, *, #, A–D).
+        - You need to navigate phone menus or send confirmation tones.
+
+        Args:
+            context (RunContext): The LiveKit agent run context (provided automatically).
+            digits (str): A sequence of one or more DTMF characters.
+                - Acceptable values: 0–9, *, #, A–D (case-insensitive).
+                - Example: "123#", "*0", "45A".
+
+        Returns:
+            dict: A dictionary containing the status of the operation.
+                Example on success:
+                {
+                    "status": "success",
+                    "digits": "123#",
+                    "message": "Played DTMF digits 123# into the call."
+                }
+
+                Example on error:
+                {
+                    "status": "error",
+                    "digits": "123#",
+                    "message": "Failed to play DTMF: <error details>"
+                }
+
+        Notes for the LLM agent:
+        - Call this function ONLY when DTMF tones are explicitly required
+            (e.g., interacting with automated phone menus).
+        - Do NOT use this function for natural conversation with the caller.
+        - Always provide the full sequence of digits in the "digits" argument
+            as a string, without spaces.
+        """
+        try:
+            if not digits or not isinstance(digits, str):
+                raise ValueError("Digits must be a non-empty string")
+
+            logger.info(f"Sending DTMF digits: {digits}")
+
+            mapping = {
+                '0': 0, '1': 1, '2': 2, '3': 3,
+                '4': 4, '5': 5, '6': 6, '7': 7,
+                '8': 8, '9': 9,
+                '*': 10, '#': 11,
+                'A': 12, 'B': 13, 'C': 14, 'D': 15,
+            }
+            print(dir(self.session))
+            print('x'*50)
+            local_participant = self.session.participant
+
+            for d in digits:
+                if d.upper() in mapping:
+                    await local_participant.publish_dtmf(
+                        code=mapping[d.upper()],
+                        digit=d
+                    )
+                    logger.debug(f"Sent DTMF {d}")
+                else:
+                    logger.warning(f"Invalid DTMF char skipped: {d}")
+
+            return {
+                "status": "success",
+                "digits": digits,
+                "message": f"Played DTMF digits {digits} into the call."
+            }
+
+        except Exception as e:
+            logger.error(f"Error sending DTMF: {e}")
+            return {
+                "status": "error",
+                "message": f"Failed to play DTMF: {e}",
+                "digits": digits
+            }
+
+
+    async def play_dtmfxxx(self, context: RunContext, digits: str) -> dict:
         """
         Function to play a sequence of DTMF digits into the current call.
         Args:
@@ -333,7 +464,21 @@ class SIPLifecycleAgent(Agent):
                 raise ValueError("Digits must be a non-empty string")
 
             logger.info(f"Playing DTMF into call: {digits}")
-            await self.session.send_dtmf(digits=digits)
+            
+            # Get the local participant from the agent's room
+            local_participant = self.session.room.local_participant
+            
+            # Send each digit individually
+            for digit in digits:
+                if digit.isdigit():
+                    code = int(digit)
+                    await local_participant.publish_dtmf(code=code, digit=digit)
+                elif digit == '*':
+                    await local_participant.publish_dtmf(code=10, digit='*')
+                elif digit == '#':
+                    await local_participant.publish_dtmf(code=11, digit='#')
+                else:
+                    logger.warning(f"Skipping invalid DTMF character: {digit}")
 
             return {
                 "status": "success",
@@ -376,6 +521,12 @@ async def entrypoint(ctx: JobContext):
         # Check if this is a SIP participant and log call status
         if participant.kind == rtc.ParticipantKind.PARTICIPANT_KIND_SIP:
             logger.info(f"SIP participant connected: {participant.identity}")
+
+            # Get the task from attributes
+            task = participant._info.attributes.get("task")
+            logger.info(f"task: {task}")
+
+            userdata = UserData(ctx=ctx, task=task)
 
             # Log SIP attributes
             if participant.attributes:
