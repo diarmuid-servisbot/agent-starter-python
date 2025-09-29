@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  sip-lifecycle-agent:
+    # Build the image from the included Dockerfile
+    build:
+      context: .
+    image: sip-lifecycle-agent:latest
+    restart: unless-stopped
+
+    # This app connects out to LiveKit and other services; no inbound ports needed
+    # If you later need inbound webhooks, add `ports:` here.
+
+    # Environment handling
+    # You can override ENV_FILE in Coolify to point at a different .env file path
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ENV_FILE=${ENV_FILE:-.env.coolify}
+
+    # Optionally load environment from a file baked into the repo
+    # If the file doesn't exist, Docker Compose will ignore it
+    env_file:
+      - .env.coolify
+
+    # Override the Dockerfile CMD to run the SIP lifecycle agent
+    command: ["uv", "run", "python", "src/sip_lifecycle_dtmf.py", "dev"]
+
+    # Persist logs if you want to keep them between deployments (optional)
+    # volumes:
+    #   - agent_logs:/app/llm_logs
+    #   - agent_debug:/app/agent_debug.log
+
+# volumes:
+#   agent_logs:
+#   agent_debug:
