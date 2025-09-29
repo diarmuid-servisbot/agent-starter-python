@@ -11,16 +11,18 @@ services:
     # This app connects out to LiveKit and other services; no inbound ports needed
     # If you later need inbound webhooks, add `ports:` here.
 
-    # Environment handling
-    # You can override ENV_FILE in Coolify to point at a different .env file path
+    # Environment variables are injected directly by Coolify.
+    # Add the following variables to your Coolify service configuration.
     environment:
       - PYTHONUNBUFFERED=1
-      - ENV_FILE=${ENV_FILE:-.env.coolify}
-
-    # Optionally load environment from a file baked into the repo
-    # If the file doesn't exist, Docker Compose will ignore it
-    env_file:
-      - .env.coolify
+      - LIVEKIT_URL=${LIVEKIT_URL}
+      - LIVEKIT_API_KEY=${LIVEKIT_API_KEY}
+      - LIVEKIT_API_SECRET=${LIVEKIT_API_SECRET}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
+      - DEEPGRAM_API_KEY=${DEEPGRAM_API_KEY}
+      - CARTESIA_API_KEY=${CARTESIA_API_KEY}
 
     # Override the Dockerfile CMD to run the SIP lifecycle agent
     command: ["uv", "run", "python", "src/sip_lifecycle_dtmf.py", "dev"]

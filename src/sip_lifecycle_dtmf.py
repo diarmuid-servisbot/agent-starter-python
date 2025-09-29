@@ -19,9 +19,12 @@ from pydantic import Field
 from dataclasses import dataclass
 import time
 
-# Allow specifying which env file to load via ENV_FILE; default to .env.local
-env_file = os.getenv("ENV_FILE", ".env.local")
-load_dotenv(env_file)
+# If ENV_FILE is set, load a specific .env file. Otherwise, assume env vars are set directly.
+# This is the standard practice for server environments like Coolify.
+env_file = os.getenv("ENV_FILE")
+if env_file:
+    print(f"Loading environment variables from {env_file}")
+    load_dotenv(env_file)
 
 # Configure file logging
 log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
