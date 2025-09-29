@@ -18,7 +18,10 @@ from typing import Annotated, Optional
 from pydantic import Field
 from dataclasses import dataclass
 import time
-load_dotenv(".env.local")
+
+# Allow specifying which env file to load via ENV_FILE; default to .env.local
+env_file = os.getenv("ENV_FILE", ".env.local")
+load_dotenv(env_file)
 
 # Configure file logging
 log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
