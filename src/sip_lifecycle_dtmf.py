@@ -182,7 +182,7 @@ class SIPLifecycleAgent(Agent):
             instructions=instructions,
             stt=stt,
             llm=llm,
-            tts=deepgram.TTS(),
+            tts=deepgram.TTS("aura-2-andromeda-en",model="nova-2", language="en-US", smart_format=True, punctuate=True,),
             min_endpointing_delay=0.75
         )
 
