@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+from logging.handlers import RotatingFileHandler
 import os
 import random
 import uuid
@@ -28,7 +29,7 @@ if env_file:
 
 # Configure file logging
 log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-file_handler = logging.FileHandler('agent_debug.log')
+file_handler = RotatingFileHandler('agent_debug.log', maxBytes=5242880, backupCount=3)  # 5MB
 file_handler.setFormatter(log_formatter)
 file_handler.setLevel(logging.DEBUG)
 
