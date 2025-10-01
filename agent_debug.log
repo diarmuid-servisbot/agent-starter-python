@@ -2011,3 +2011,8 @@ xxxxx2025-10-01 11:38:10,426 - livekit.plugins.openai - DEBUG - chat.completions
 2025-10-01 11:44:51,402 - sip-lifecycle-agent - INFO - Participant sip_Anonymous attributes changed: {'sip.callStatus': 'hangup'}
 2025-10-01 11:44:51,403 - sip-lifecycle-agent - INFO - SIP Call Status updated: hangup
 2025-10-01 11:44:51,403 - sip-lifecycle-agent - INFO - Call has been ended by a participant
+2025-10-01 12:10:07,150 - livekit.plugins.openai - DEBUG - chat.completions.create
+2025-10-01 12:10:10,748 - livekit.plugins.openai - DEBUG - chat.completions.create
+2025-10-01 12:11:48,592 - livekit.plugins.openai - DEBUG - chat.completions.create
+2025-10-01 12:11:55,210 - livekit.plugins.openai - DEBUG - chat.completions.create
+2025-10-01 12:12:04,504 - livekit.plugins.openai - DEBUG - chat.completions.create

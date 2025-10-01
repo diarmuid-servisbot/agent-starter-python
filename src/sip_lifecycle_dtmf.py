@@ -187,7 +187,7 @@ class SIPLifecycleAgent(Agent):
             turn_detection=EnglishModel(),
             stt=stt,
             llm=llm,
-            tts=deepgram.TTS(),
+            tts=deepgram.TTS( model="aura-asteria-en",),
             min_endpointing_delay=0.75
         )
 
