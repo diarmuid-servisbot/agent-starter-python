@@ -26,11 +26,17 @@ load_dotenv(".env.local")
 
 class Assistant(Agent):
     def __init__(self) -> None:
+
+        # Load instructions from file
+        try:
+            with open("escrow.txt", "r") as f:
+                instructions = f.read()
+        except FileNotFoundError:
+            logger.error("instructions.txt not found, using default instructions")
+            instructions = "You are an AI assistant specializing in mortgage escrow inquiries."
+        
         super().__init__(
-            instructions="""You are a helpful voice AI assistant.
-            You eagerly assist users with their questions by providing information from your extensive knowledge.
-            Your responses are concise, to the point, and without any complex formatting or punctuation including emojis, asterisks, or other symbols.
-            You are curious, friendly, and have a sense of humor.""",
+            instructions=instructions,
         )
 
     # all functions annotated with @function_tool will be passed to the LLM when this
@@ -125,7 +131,7 @@ async def entrypoint(ctx: JobContext):
             # LiveKit Cloud enhanced noise cancellation
             # - If self-hosting, omit this parameter
             # - For telephony applications, use `BVCTelephony` for best results
-            noise_cancellation=noise_cancellation.BVC(),
+            # noise_cancellation=noise_cancellation.BVC(),  # Commented out for self-hosted servers
         ),
     )
 
