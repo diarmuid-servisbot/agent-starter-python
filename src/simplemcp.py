@@ -24,5 +24,6 @@ def transfer_call() -> str:
     return "Transferring your call to a human agent now."
 
 if __name__ == "__main__":
-    # Serve as an HTTP MCP server (so LiveKit can use MCPServerHTTP)
-    mcp.run(transport="http", port=8000)
+    import uvicorn
+    app = mcp.sse_app
+    uvicorn.run(app, host="127.0.0.1", port=8000)
