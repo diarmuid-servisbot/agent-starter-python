@@ -1,4 +1,37 @@
 {
   "timestamp": 1755857127.923744,
-  "definitions": []
+  "definitions": [
+    {
+      "name": "get_weather",
+      "description": "Get the current weather for a given location.",
+      "parameters": {
+        "type": "object",
+        "required": ["location"],
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "The city or location to get weather for"
+          }
+        }
+      }
+    },
+    {
+      "name": "tell_joke",
+      "description": "Tell a random joke to lighten the mood.",
+      "parameters": {
+        "type": "object",
+        "required": [],
+        "properties": {}
+      }
+    },
+    {
+      "name": "transfer_call",
+      "description": "Transfer the call to a human agent.",
+      "parameters": {
+        "type": "object",
+        "required": [],
+        "properties": {}
+      }
+    }
+  ]
 }

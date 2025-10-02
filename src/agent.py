@@ -11,6 +11,7 @@ from livekit.agents import (
     RoomInputOptions,
     WorkerOptions,
     cli,
+    llm,
     metrics,
 )
 from livekit.plugins import noise_cancellation, openai, deepgram, silero
@@ -30,27 +31,11 @@ class Assistant(Agent):
         config = load_company_config(company_tag)
         instructions = config["instructions"]
         self.agent_voice = config["agent_voice"]
+        self.loaded_tools = config["tools"]
 
         super().__init__(
             instructions=instructions,
         )
-
-    # To add tools, use the @function_tool decorator.
-    # Here's an example that adds a simple weather tool.
-    # You also have to add `from livekit.agents.llm import function_tool, RunContext` to the top of this file
-    # @function_tool
-    # async def lookup_weather(self, context: RunContext, location: str):
-    #     """Use this tool to look up current weather information in the given location.
-    #
-    #     If the location is not supported by the weather service, the tool will indicate this. You must tell the user the location's weather is unavailable.
-    #
-    #     Args:
-    #         location: The location to look up weather information for (e.g. city name)
-    #     """
-    #
-    #     logger.info(f"Looking up weather for {location}")
-    #
-    #     return "sunny with a temperature of 70 degrees."
 
 
 def prewarm(proc: JobProcess):
@@ -70,7 +55,7 @@ async def entrypoint(ctx: JobContext):
     session = AgentSession(
         # A Large Language Model (LLM) is your agent's brain, processing user input and generating a response
         # See all providers at https://docs.livekit.io/agents/integrations/llm/
-        llm=openai.LLM(model="gpt-4o-mini", temperature=0.9),
+        llm=openai.LLM(model="gpt-4o-mini", temperature=0.9, tools=agent.loaded_tools),
         # Speech-to-text (STT) is your agent's ears, turning the user's speech into text that the LLM can understand
         # See all available models at https://docs.livekit.io/agents/models/stt/
         stt=deepgram.STT(),
@@ -86,6 +71,13 @@ async def entrypoint(ctx: JobContext):
         # See more at https://docs.livekit.io/agents/build/audio/#preemptive-generation
         preemptive_generation=True,
     )
+
+    @session.on("llm_function_tool_call")
+    async def on_tool_call(ev):
+        logger.info(f"Tool called: {ev.tool_call.name} with {ev.tool_call.arguments}")
+        # TODO: Implement tool logic
+        # For now, acknowledge
+        await ev.call.respond("Tool execution simulated.")
 
     # To use a realtime model instead of a voice pipeline, use the following session setup instead.
     # (Note: This is for the OpenAI Realtime API. For other providers, see https://docs.livekit.io/agents/models/realtime/))
