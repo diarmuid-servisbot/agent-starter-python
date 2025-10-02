@@ -15,6 +15,9 @@ from livekit.agents.llm import function_tool
 from livekit.agents.voice import Agent, AgentSession, RunContext
 from livekit.plugins import deepgram, openai, silero, cartesia
 
+from livekit.plugins.turn_detector.english import EnglishModel
+from livekit.plugins import deepgram
+
 from typing import Annotated, Optional
 from pydantic import Field
 from dataclasses import dataclass
@@ -181,9 +184,10 @@ class SIPLifecycleAgent(Agent):
 
         super().__init__(
             instructions=instructions,
+            turn_detection=EnglishModel(),
             stt=stt,
             llm=llm,
-            tts=deepgram.TTS(),
+            tts=deepgram.TTS( model="aura-asteria-en",),
             min_endpointing_delay=0.75
         )
 

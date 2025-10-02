@@ -12,7 +12,7 @@ from livekit.agents import (
     cli,
     metrics,
 )
-from livekit.plugins import noise_cancellation, silero
+from livekit.plugins import noise_cancellation, openai, deepgram, silero
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
 
 logger = logging.getLogger("agent")
@@ -22,11 +22,17 @@ load_dotenv(".env.local")
 
 class Assistant(Agent):
     def __init__(self) -> None:
+
+        # Load instructions from file
+        try:
+            with open("escrow.txt", "r") as f:
+                instructions = f.read()
+        except FileNotFoundError:
+            logger.error("instructions.txt not found, using default instructions")
+            instructions = "You are an AI assistant specializing in mortgage escrow inquiries."
+        
         super().__init__(
-            instructions="""You are a helpful voice AI assistant. The user is interacting with you via voice, even if you perceive the conversation as text.
-            You eagerly assist users with their questions by providing information from your extensive knowledge.
-            Your responses are concise, to the point, and without any complex formatting or punctuation including emojis, asterisks, or other symbols.
-            You are curious, friendly, and have a sense of humor.""",
+            instructions=instructions,
         )
 
     # To add tools, use the @function_tool decorator.
@@ -60,15 +66,16 @@ async def entrypoint(ctx: JobContext):
 
     # Set up a voice AI pipeline using OpenAI, Cartesia, AssemblyAI, and the LiveKit turn detector
     session = AgentSession(
+        # A Large Language Model (LLM) is your agent's brain, processing user input and generating a response
+        # See all providers at https://docs.livekit.io/agents/integrations/llm/
+        llm=openai.LLM(model="gpt-4o-mini", temperature=0.9),
         # Speech-to-text (STT) is your agent's ears, turning the user's speech into text that the LLM can understand
         # See all available models at https://docs.livekit.io/agents/models/stt/
         stt="assemblyai/universal-streaming:en",
-        # A Large Language Model (LLM) is your agent's brain, processing user input and generating a response
-        # See all available models at https://docs.livekit.io/agents/models/llm/
-        llm="openai/gpt-4.1-mini",
         # Text-to-speech (TTS) is your agent's voice, turning the LLM's text into speech that the user can hear
-        # See all available models as well as voice selections at https://docs.livekit.io/agents/models/tts/
-        tts="cartesia/sonic-2:9626c31c-bec5-4cca-baa8-f8ba9e84c8bc",
+        # See all providers at https://docs.livekit.io/agents/integrations/tts/
+        #tts=cartesia.TTS(voice="6f84f4b8-58a2-430c-8c79-688dad597532"),
+        tts=deepgram.TTS(model="aura-asteria-en"),
         # VAD and turn detection are used to determine when the user is speaking and when the agent should respond
         # See more at https://docs.livekit.io/agents/build/turns
         turn_detection=MultilingualModel(),
@@ -116,8 +123,10 @@ async def entrypoint(ctx: JobContext):
         agent=Assistant(),
         room=ctx.room,
         room_input_options=RoomInputOptions(
-            # For telephony applications, use `BVCTelephony` for best results
-            noise_cancellation=noise_cancellation.BVC(),
+            # LiveKit Cloud enhanced noise cancellation
+            # - If self-hosting, omit this parameter
+            # - For telephony applications, use `BVCTelephony` for best results
+            # noise_cancellation=noise_cancellation.BVC(),  # Commented out for self-hosted servers
         ),
     )
 
