@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "agent_greeting": "Welcome to Cenlar F A Q. How can I help you ??",
+    "agent_greetings": {
+      "en": "Welcome to Cenlar F A Q. How can I help you ??"
+    },
+    "agent_name": "FAQ Assistant",
+    "agent_voice": "aura-2-thalia-en",
+    "transfer_phone": null
+  },
+  "timestamp": 1755857218.220862
+}

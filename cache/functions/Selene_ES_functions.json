@@ -1,0 +1,129 @@
+{
+  "timestamp": 1755857174.6842098,
+  "definitions": [
+    {
+      "name": "transfer_call",
+      "description": "Transfer the current call to another phone number or department.\n        \n        Use this function when:\n        - The customer needs to speak with a human agent\n        - The customer's issue requires specialized assistance\n        - The customer explicitly requests to speak with a representative\n        - The issue is too complex for the AI to handle\n        \n        This will connect the customer to the specified department or phone number.",
+      "parameters": {
+        "type": "object",
+        "required": [],
+        "properties": {}
+      }
+    },
+    {
+      "name": "make_payment",
+      "description": "Submit a payment for a loan using bank account information.\n        \n        Use this function when:\n        - A customer wants to make a payment\n        - Processing scheduled payments\n        - Handling payment arrangements\n        \n        Requires prior loan lookup to get the request_key.\n        Always verify payment details with the customer before processing.\n        \n        This function will submit the payment to the middleware service and return a confirmation or error message.\n        The payment will be processed immediately using the provided bank account information.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "payment_data",
+          "request_key"
+        ],
+        "properties": {
+          "request_key": {
+            "type": "string",
+            "description": "Request key from previous loan lookup call"
+          },
+          "payment_data": {
+            "type": "object",
+            "required": [
+              "payment_amount",
+              "loan_number",
+              "ssn",
+              "pay_account"
+            ],
+            "properties": {
+              "ssn": {
+                "type": "string",
+                "description": "Last 4 digits of SSN"
+              },
+              "loan_number": {
+                "type": "string",
+                "description": "Loan number for the payment"
+              },
+              "pay_account": {
+                "type": "object",
+                "required": [
+                  "payment_type_id",
+                  "account_number",
+                  "aba",
+                  "name_on_account",
+                  "account_checking"
+                ],
+                "properties": {
+                  "aba": {
+                    "type": "string",
+                    "description": "Customer's Bank routing number (must be validated first)"
+                  },
+                  "default": {
+                    "type": "string",
+                    "description": "'true' to set as default payment account, 'false' otherwise"
+                  },
+                  "nickname": {
+                    "type": "string",
+                    "description": "Optional nickname for the account that might come from the loan_details lookup"
+                  },
+                  "account_number": {
+                    "type": "string",
+                    "description": "Customer's Bank account number"
+                  },
+                  "name_on_account": {
+                    "type": "string",
+                    "description": "Customer's Name as it appears on the bank account"
+                  },
+                  "payment_type_id": {
+                    "type": "string",
+                    "description": "Payment type identifier (e.g., '1' for ACH)"
+                  },
+                  "account_business": {
+                    "type": "string",
+                    "description": "'true' for business account, 'false' for personal account"
+                  },
+                  "account_checking": {
+                    "type": "string",
+                    "description": "'true' for checking, 'false' for savings"
+                  },
+                  "save_pay_account": {
+                    "type": "string",
+                    "description": "'true' to save account for future payments, 'false' otherwise"
+                  }
+                },
+                "description": "Bank account details for payment"
+              },
+              "payment_amount": {
+                "type": "string",
+                "description": "Amount to pay (e.g., '1234.56')"
+              }
+            },
+            "description": "Payment details including amount and account information"
+          }
+        }
+      }
+    },
+    {
+      "name": "hangup_call",
+      "description": "Terminate the current Twilio call.\n        \n        Use this function when:\n        - The conversation has reached a natural conclusion and you are saying goodbye\n        - The customer explicitly asks to end the call\n        - All customer needs have been addressed and the call should be terminated\n   You decide the call is finished. \n if the customer asks for the call to be hung_up, cancelled, closed, terminated or any other similiar term, then you should call this function.    ",
+      "parameters": {
+        "type": "object",
+        "required": [],
+        "properties": {}
+      }
+    },
+    {
+      "name": "validate_aba",
+      "description": "Validate a bank routing number (ABA number).\n        \n        Use this function when:\n        - A customer wants to set up bank payments\n        - You need to verify a routing number\n        - Before processing any ACH/bank payments\n        \n        The function will return the bank name if the routing number is valid.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "aba"
+        ],
+        "properties": {
+          "aba": {
+            "type": "string",
+            "description": "Exactly 9-digit bank ABA routing number explicitly provided by the customer."
+          }
+        }
+      }
+    }
+  ]
+}

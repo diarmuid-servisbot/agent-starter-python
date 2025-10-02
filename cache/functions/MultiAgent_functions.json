@@ -1,0 +1,45 @@
+{
+  "timestamp": 1755857184.480907,
+  "definitions": [
+    {
+      "name": "switch_agent",
+      "description": "Switch to another lightweight test agent. Use this to hand off between agents to test seamless prompt/function updates during a live call.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "target_agent"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "description": "Brief natural-language explanation for logging/analytics."
+          },
+          "target_agent": {
+            "type": "string",
+            "description": "The agent to switch to. Valid values: 'base_greeter', 'router_agent', 'joke_agent', 'smalltalk_agent', 'math_agent', 'support_agent', 'echo_agent', 'summarizer_agent'."
+          }
+        }
+      }
+    },
+    {
+      "name": "end_call",
+      "description": "Politely end the call when the user is done.",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "escalate_to_human",
+      "description": "Escalate to a human agent (for testing transfer/CSR flows).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

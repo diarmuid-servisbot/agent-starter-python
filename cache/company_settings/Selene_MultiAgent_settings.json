@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "agent_greeting": null,
+    "agent_greetings": {
+      "en": "Welcome to Selene Finance Multi Agent. Would you like to make a payment today?"
+    },
+    "agent_name": "Selene Multi Agent",
+    "agent_voice": "aura-2-thalia-en",
+    "transfer_phone": "+17136252005"
+  },
+  "timestamp": 1755857205.6793752
+}

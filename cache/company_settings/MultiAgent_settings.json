@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "agent_greeting": null,
+    "agent_greetings": {
+      "en": "Multi agent test."
+    },
+    "agent_name": "Multi Agent",
+    "agent_voice": "aura-2-thalia-en",
+    "transfer_phone": null
+  },
+  "timestamp": 1755857175.117218
+}

@@ -1,0 +1,15 @@
+{
+  "settings": {
+    "agent_greeting": "Default greeting for all languages",
+    "agent_greetings": {
+      "de": "Aktualisierte deutsche Begr\u00fc\u00dfung",
+      "en": "Updated English greeting",
+      "es": "Saludo espa\u00f1ol actualizado",
+      "fr": "Salutation fran\u00e7aise mise \u00e0 jour"
+    },
+    "agent_name": "Test Agent",
+    "agent_voice": "aura-2-thalia-en",
+    "transfer_phone": "+19518338760"
+  },
+  "timestamp": 1755857128.3594382
+}

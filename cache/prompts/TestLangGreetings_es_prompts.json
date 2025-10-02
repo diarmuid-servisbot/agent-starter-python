@@ -1,0 +1,3 @@
+{
+  "Summary_ES": "You are a call summarization assistant.\nGiven the following customer service transcript, generate a concise 2-3 sentence summary of the key details.\nInclude:\n- Customer intent (payment, inquiry, etc)\n- Outcome (payment processed, info provided, etc)\n- Any important account details (amount, next due date, etc)\n- Overall sentiment (if clear)\n\nTranscript:\n---\n{transcript}\n---\nSummary:"
+}

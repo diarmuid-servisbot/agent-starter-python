@@ -1,0 +1,51 @@
+{
+  "timestamp": 1755857156.103554,
+  "definitions": [
+    {
+      "name": "play_joke",
+      "description": "Tell a mortgage-related joke to the customer.\n        \n        Use this function when:\n        - A customer asks for a joke\n        - You want to lighten the mood\n        - There's a natural pause in the conversation and the customer seems receptive\n        \n        Do not use jokes when discussing serious financial matters or when the customer is expressing concerns.",
+      "parameters": {
+        "type": "object",
+        "required": [],
+        "properties": {}
+      }
+    },
+    {
+      "name": "hangup_call",
+      "description": "Gracefully end the current Twilio call session with the customer.\n\nUse this function in the following situations:\n- The conversation has reached a natural or logical conclusion.\n- The customer explicitly indicates they are done, such as by saying \u201cbye,\u201d \u201cgoodbye,\u201d \u201cthat\u2019s all,\u201d \u201cI\u2019m finished,\u201d \u201cthank you,\u201d \u201cthanks, that\u2019s all,\u201d \u201cI\u2019m done,\u201d or any other phrase that clearly signals the end of the conversation.\n- The customer no longer needs further assistance, and all their questions or requests have been addressed.\n- The customer expresses satisfaction or closes the conversation with phrases like \u201cthat\u2019s it,\u201d \u201cno more questions,\u201d \u201cyou\u2019ve been very helpful,\u201d \u201cI have nothing else,\u201d or similar.\n- The call needs to be ended for compliance, security, or technical reasons (e.g., inactivity, customer request to hang up, or system policy).\n\nOperational Instructions:\n- Before ending the call, always include a `farewell_message` parameter with your goodbye message. Example: \u201cThank you for calling. Have a great day!\u201d\n- The system will play or send this farewell message and ensure the customer hears it before disconnecting.\n- Do not hang up abruptly\u2014ensure the farewell is sent and delivered (with a short pause if required).\n- This function should be called promptly whenever the customer signals they wish to end the interaction, even if the request is implicit or phrased informally.\n\nSample Triggers:\n- \u201cI\u2019d like to end the call now.\u201d\n- \u201cBye.\u201d\n- \u201cThank you, that\u2019s all.\u201d\n- \u201cI don\u2019t need anything else.\u201d\n- \u201cI\u2019m done.\u201d\n- \u201cCan you hang up now?\u201d\n- \u201cNo, I have no more questions.\u201d\n- [Any other phrase that means the customer is finished.]\n\nExample:\nfarewell_message = \"Thank you for calling. If you have any more questions, feel free to call us again. Goodbye!\"",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "call_sid",
+          "reason"
+        ],
+        "properties": {
+          "reason": {
+            "enum": [
+              "customer request",
+              "service complete",
+              "transfer complete",
+              "business hours ended",
+              "other"
+            ],
+            "type": "string",
+            "description": "Reason for ending the call (e.g., 'customer request', 'service complete')"
+          },
+          "call_sid": {
+            "type": "string",
+            "description": "The Twilio Call SID to terminate"
+          },
+          "delay_seconds": {
+            "type": "integer",
+            "default": 2,
+            "description": "Number of seconds to wait before hanging up (to allow for farewell message)"
+          },
+          "farewell_message": {
+            "type": "string",
+            "description": "Optional farewell message to log before hanging up"
+          }
+        }
+      }
+    }
+  ]
+}

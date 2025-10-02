@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "agent_greeting": "Hello. Welcome to A I B. How can I assist you today?",
+    "agent_greetings": {
+      "en": "Hello. Welcome to A I B. How can I assist you today?"
+    },
+    "agent_name": "AIB TCP IVA",
+    "agent_voice": "aura-2-pandora-en",
+    "transfer_phone": null
+  },
+  "timestamp": 1755857156.521458
+}

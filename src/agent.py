@@ -1,4 +1,6 @@
+import json
 import logging
+import os
 
 from dotenv import load_dotenv
 from livekit.agents import (
@@ -22,15 +24,29 @@ load_dotenv(".env.local")
 
 class Assistant(Agent):
     def __init__(self) -> None:
+        company_tag = os.getenv("COMPANY_TAG", "Escrow")
 
-        # Load instructions from file
+        # Load settings
+        settings_path = f"cache/company_settings/{company_tag}_settings.json"
         try:
-            with open("escrow.txt", "r") as f:
-                instructions = f.read()
+            with open(settings_path, "r") as f:
+                settings = json.load(f)
         except FileNotFoundError:
-            logger.error("instructions.txt not found, using default instructions")
-            instructions = "You are an AI assistant specializing in mortgage escrow inquiries."
-        
+            logger.error(f"Settings file not found: {settings_path}, using default")
+            settings = {"settings": {"agent_voice": "aura-asteria-en"}}
+
+        # Load prompts
+        prompts_path = f"cache/prompts/{company_tag}_en_prompts.json"
+        try:
+            with open(prompts_path, "r") as f:
+                prompts = json.load(f)
+        except FileNotFoundError:
+            logger.error(f"Prompts file not found: {prompts_path}, using default")
+            prompts = {"Default Prompt": "You are a helpful voice AI assistant."}
+
+        instructions = prompts.get("Default Prompt", "You are a helpful voice AI assistant.")
+        self.agent_voice = settings["settings"].get("agent_voice", "aura-asteria-en")
+
         super().__init__(
             instructions=instructions,
         )
@@ -64,6 +80,8 @@ async def entrypoint(ctx: JobContext):
         "room": ctx.room.name,
     }
 
+    agent = Assistant()
+
     # Set up a voice AI pipeline using OpenAI, Cartesia, AssemblyAI, and the LiveKit turn detector
     session = AgentSession(
         # A Large Language Model (LLM) is your agent's brain, processing user input and generating a response
@@ -75,7 +93,7 @@ async def entrypoint(ctx: JobContext):
         # Text-to-speech (TTS) is your agent's voice, turning the LLM's text into speech that the user can hear
         # See all providers at https://docs.livekit.io/agents/integrations/tts/
         #tts=cartesia.TTS(voice="6f84f4b8-58a2-430c-8c79-688dad597532"),
-        tts=deepgram.TTS(model="aura-asteria-en"),
+        tts=deepgram.TTS(model=agent.agent_voice),
         # VAD and turn detection are used to determine when the user is speaking and when the agent should respond
         # See more at https://docs.livekit.io/agents/build/turns
         turn_detection=MultilingualModel(),
@@ -120,7 +138,7 @@ async def entrypoint(ctx: JobContext):
 
     # Start the session, which initializes the voice pipeline and warms up the models
     await session.start(
-        agent=Assistant(),
+        agent=agent,
         room=ctx.room,
         room_input_options=RoomInputOptions(
             # LiveKit Cloud enhanced noise cancellation

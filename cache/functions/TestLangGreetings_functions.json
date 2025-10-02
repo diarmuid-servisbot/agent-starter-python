@@ -1,0 +1,30 @@
+{
+  "timestamp": 1755857136.845979,
+  "definitions": [
+    {
+      "name": "make_comment",
+      "description": "Add a comment to a loan record.\nUse this function when:\n- A customer provides information that should be documented on their loan\n- The agent needs to record important details from the conversation\n- Documenting call outcomes or follow-up actions\n- Recording customer requests or complaints.\nThis function will submit the comment to the loan servicing system and return a confirmation or error message.\nComments are permanently stored in the loan record and can be viewed by loan servicing staff.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "loan_number",
+          "comment_text"
+        ],
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "description": "The ID of the user making the comment (defaults to '88881' if not provided)"
+          },
+          "loan_number": {
+            "type": "string",
+            "description": "The loan number to add a comment to"
+          },
+          "comment_text": {
+            "type": "string",
+            "description": "The text of the comment to add to the loan record"
+          }
+        }
+      }
+    }
+  ]
+}

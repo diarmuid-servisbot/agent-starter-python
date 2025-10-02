@@ -1,0 +1,15 @@
+{
+  "settings": {
+    "agent_greeting": "Welcome to Selene Finance. How can I help you ??",
+    "agent_greetings": {
+      "de": "Aktualisierte deutsche Begr\u00fc\u00dfung",
+      "en": "Welcome to Selene Finance. How can I help you ??",
+      "es": "Saludo espa\u00f1ol actualizado",
+      "fr": "Salutation fran\u00e7aise mise \u00e0 jour"
+    },
+    "agent_name": "Selene Assistant",
+    "agent_voice": "aura-2-thalia-en",
+    "transfer_phone": "+17136252005"
+  },
+  "timestamp": 1756306282.6901708
+}

@@ -1,0 +1,149 @@
+{
+  "timestamp": 1756306284.425251,
+  "definitions": [
+    {
+      "name": "hangup_call",
+      "description": "Terminate the current Twilio call.\n        \n        Use this function when:\n        - The conversation has reached a natural conclusion and you are saying goodbye\n        - The customer explicitly asks to end the call\n        - All customer needs have been addressed and the call should be terminated\n   You decide the call is finished. \n if the customer asks for the call to be hung_up, cancelled, closed, terminated or any other similiar term, then you should call this function.    ",
+      "parameters": {
+        "type": "object",
+        "required": [],
+        "properties": {}
+      }
+    },
+    {
+      "name": "transfer_call",
+      "description": "Transfer the current call to another phone number or department.\n        \n        Use this function when:\n        - The customer needs to speak with a human agent\n        - The customer's issue requires specialized assistance\n        - The customer explicitly requests to speak with a representative\n        - The issue is too complex for the AI to handle\n        \n        This will connect the customer to the specified department or phone number.",
+      "parameters": {
+        "type": "object",
+        "required": [],
+        "properties": {}
+      }
+    },
+    {
+      "name": "validate_aba",
+      "description": "Validate a bank routing number (ABA number).\n        \n        Use this function when:\n        - A customer wants to set up bank payments\n        - You need to verify a routing number\n        - Before processing any ACH/bank payments\n        \n        The function will return the bank name if the routing number is valid.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "aba"
+        ],
+        "properties": {
+          "aba": {
+            "type": "string",
+            "description": "Exactly 9-digit bank ABA routing number explicitly provided by the customer."
+          }
+        }
+      }
+    },
+    {
+      "name": "make_payment",
+      "description": "Submit a payment for a loan using bank account information.\n\nUse this function when a caller wants to make a payment\n\nThis function will submit the payment to the middleware service and return a confirmation code or error message.\nThe payment will be processed immediately using the provided bank account information.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "payment_data",
+          "request_key"
+        ],
+        "properties": {
+          "request_key": {
+            "type": "string",
+            "description": "Request key from previous loan lookup call"
+          },
+          "payment_data": {
+            "type": "object",
+            "required": [
+              "payment_amount",
+              "loan_number",
+              "ssn",
+              "pay_account"
+            ],
+            "properties": {
+              "ssn": {
+                "type": "string",
+                "description": "Last 4 digits of SSN"
+              },
+              "loan_number": {
+                "type": "string",
+                "description": "Loan number for the payment"
+              },
+              "pay_account": {
+                "type": "object",
+                "required": [
+                  "payment_type_id",
+                  "account_number",
+                  "aba",
+                  "name_on_account",
+                  "account_checking",
+                  "save_pay_account",
+                  "default",
+                  "account_business",
+                  "nickname"
+                ],
+                "properties": {
+                  "aba": {
+                    "type": "string",
+                    "description": "Customer's Bank routing number called aba"
+                  },
+                  "default": {
+                    "type": "string",
+                    "description": "'true' to set as default payment account, 'false' otherwise"
+                  },
+                  "nickname": {
+                    "type": "string",
+                    "description": "Optional nickname for the account that might come from the loan_details lookup"
+                  },
+                  "account_number": {
+                    "type": "string",
+                    "description": "Customer's Bank account number"
+                  },
+                  "name_on_account": {
+                    "type": "string",
+                    "description": "Customer's Name as it appears on the bank account"
+                  },
+                  "payment_type_id": {
+                    "type": "string",
+                    "description": "Payment type identifier (e.g., '1' for ACH)"
+                  },
+                  "account_business": {
+                    "type": "string",
+                    "description": "'true' for business account if account_business =1 , 'false' for personal account if account_business = 0"
+                  },
+                  "account_checking": {
+                    "type": "string",
+                    "description": "'true' for if account_checking = 1, 'false' if account_checking = 0"
+                  },
+                  "save_pay_account": {
+                    "type": "string",
+                    "description": "'true' to save account for future payments, 'false' otherwise"
+                  }
+                },
+                "description": "Bank account details for payment"
+              },
+              "payment_amount": {
+                "type": "string",
+                "description": "Amount to pay (e.g., '1234.56')"
+              }
+            },
+            "description": "Payment details including amount and account information"
+          }
+        }
+      }
+    },
+    {
+      "name": "switch_agent",
+      "description": "Switch control to a specialized agent with a different prompt and capabilities.\n\nUse this function when:\n- The current task is complete and another specialized agent should take over\n- The caller is delinquent and payment rules differ\n- The caller wants to use a new bank account\n- The conversation flow requires changing tone, scope, or tooling\n\nAvailable agents include:\n- 'payment_basic': standard payments for current accounts\n- 'payment_delinquent': delinquency-specific rules and empathy phrasing\n- 'payment_new_ach': new bank info capture and validation\n- 'escalation': CSR transfer handling for unsupported or sensitive requests\n\nAlways use this function to change persona, prompt, or functional tools mid-call.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "target_agent"
+        ],
+        "properties": {
+          "target_agent": {
+            "type": "string",
+            "description": "The name of the agent to switch to. Valid values: 'payment_basic', 'payment_delinquent', 'payment_new_ach', 'escalation'"
+          }
+        }
+      }
+    }
+  ]
+}

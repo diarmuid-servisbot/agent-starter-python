@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "agent_greeting": "Welcome to The Bank of England. May I have your name and loan number?",
+    "agent_greetings": {
+      "en": "Welcome to CarTrawler. How can we help you today?"
+    },
+    "agent_name": "ServisbotUK",
+    "agent_voice": "aura-2-pandora-en",
+    "transfer_phone": "+19518338760"
+  },
+  "timestamp": 1755857146.677355
+}

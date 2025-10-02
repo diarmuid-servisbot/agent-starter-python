@@ -1,0 +1,14 @@
+{
+  "settings": {
+    "agent_greeting": "Default greeting for all languagesxxx",
+    "agent_greetings": {
+      "en": "Hello! How can I help you today?",
+      "es": "\u00a1Hola! \u00bfC\u00f3mo puedo ayudarte hoy?",
+      "fr": "Bonjour! Comment puis-je vous aider aujourd'hui?"
+    },
+    "agent_name": "Test Agent",
+    "agent_voice": "aura-2-thalia-en",
+    "transfer_phone": "+19518338760"
+  },
+  "timestamp": 1755857116.07156
+}

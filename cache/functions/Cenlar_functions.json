@@ -1,0 +1,14 @@
+{
+  "timestamp": 1755857227.799039,
+  "definitions": [
+    {
+      "name": "play_joke",
+      "description": "Tell a mortgage-related joke to the customer.\n        \n        Use this function when:\n        - A customer asks for a joke\n        - You want to lighten the mood\n        - There's a natural pause in the conversation and the customer seems receptive\n        \n        Do not use jokes when discussing serious financial matters or when the customer is expressing concerns.",
+      "parameters": {
+        "type": "object",
+        "required": [],
+        "properties": {}
+      }
+    }
+  ]
+}
