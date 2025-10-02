@@ -19,6 +19,9 @@ from livekit.plugins.turn_detector.multilingual import MultilingualModel
 from livekit.agents import mcp
 from config_loader import load_company_config
 
+
+
+
 logger = logging.getLogger("agent")
 
 load_dotenv(".env.local")
@@ -50,6 +53,8 @@ async def entrypoint(ctx: JobContext):
 
     agent = Assistant()
 
+    company_tag = os.getenv("COMPANY_TAG", "Selene")
+
     # Set up a voice AI pipeline using OpenAI, Cartesia, AssemblyAI, and the LiveKit turn detector
     session = AgentSession(
         # A Large Language Model (LLM) is your agent's brain, processing user input and generating a response
@@ -63,19 +68,17 @@ async def entrypoint(ctx: JobContext):
         #tts=cartesia.TTS(voice="6f84f4b8-58a2-430c-8c79-688dad597532"),
         tts=deepgram.TTS(model=agent.agent_voice),
         # VAD and turn detection are used to determine when the user is speaking and when the agent should respond
-        # See more at https://docs.livekit.io/agents/build/turns
         turn_detection=MultilingualModel(),
         vad=ctx.proc.userdata["vad"],
         # allow the LLM to generate a response while waiting for the end of turn
         # See more at https://docs.livekit.io/agents/build/audio/#preemptive-generation
         preemptive_generation=True,
-        mcp_servers=[mcp.MCPServerHTTP(url="http://127.0.0.1:8000/mcp")],
+        mcp_servers=[mcp.MCPServerHTTP(url="http://127.0.0.1:8000/sse", headers={"X-Agent-ID": "test-agent-123", "X-Company-Tag": company_tag})],
         
     )
 
     # To use a realtime model instead of a voice pipeline, use the following session setup instead.
     # (Note: This is for the OpenAI Realtime API. For other providers, see https://docs.livekit.io/agents/models/realtime/))
-    # 1. Install livekit-agents[openai]
     # 2. Set OPENAI_API_KEY in .env.local
     # 3. Add `from livekit.plugins import openai` to the top of this file
     # 4. Use the following session setup instead of the version above
