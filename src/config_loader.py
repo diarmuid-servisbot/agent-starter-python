@@ -41,15 +41,13 @@ def load_company_config(company_tag: str) -> Dict[str, Any]:
         with open(functions_path, "r") as f:
             functions_data = json.load(f)
         for func_def in functions_data.get("definitions", []):
-            tool = {
-                "type": "function",
-                "function": {
-                    "name": func_def["name"],
-                    "description": func_def["description"],
-                    "parameters": func_def["parameters"]
-                }
+            # For OpenAI functions format
+            function_def = {
+                "name": func_def["name"],
+                "description": func_def["description"],
+                "parameters": func_def["parameters"]
             }
-            tools.append(tool)
+            tools.append(function_def)
     except FileNotFoundError:
         logger.warning(f"Functions file not found: {functions_path}, no tools loaded")
     except Exception as e:

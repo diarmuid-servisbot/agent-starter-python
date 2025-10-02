@@ -55,7 +55,7 @@ async def entrypoint(ctx: JobContext):
     session = AgentSession(
         # A Large Language Model (LLM) is your agent's brain, processing user input and generating a response
         # See all providers at https://docs.livekit.io/agents/integrations/llm/
-        llm=openai.LLM(model="gpt-4o-mini", temperature=0.9, tools=agent.loaded_tools),
+        llm=openai.LLM(model="gpt-4o-mini", temperature=0.9, functions=agent.loaded_tools),
         # Speech-to-text (STT) is your agent's ears, turning the user's speech into text that the LLM can understand
         # See all available models at https://docs.livekit.io/agents/models/stt/
         stt=deepgram.STT(),
