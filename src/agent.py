@@ -1,4 +1,3 @@
-import json
 import logging
 import os
 
@@ -17,6 +16,8 @@ from livekit.agents import (
 from livekit.plugins import noise_cancellation, openai, deepgram, silero
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
 
+from config_loader import load_company_config
+
 logger = logging.getLogger("agent")
 
 load_dotenv(".env.local")
@@ -24,28 +25,11 @@ load_dotenv(".env.local")
 
 class Assistant(Agent):
     def __init__(self) -> None:
-        company_tag = os.getenv("COMPANY_TAG", "Escrow")
+        company_tag = os.getenv("COMPANY_TAG", "Selene")
 
-        # Load settings
-        settings_path = f"cache/company_settings/{company_tag}_settings.json"
-        try:
-            with open(settings_path, "r") as f:
-                settings = json.load(f)
-        except FileNotFoundError:
-            logger.error(f"Settings file not found: {settings_path}, using default")
-            settings = {"settings": {"agent_voice": "aura-asteria-en"}}
-
-        # Load prompts
-        prompts_path = f"cache/prompts/{company_tag}_en_prompts.json"
-        try:
-            with open(prompts_path, "r") as f:
-                prompts = json.load(f)
-        except FileNotFoundError:
-            logger.error(f"Prompts file not found: {prompts_path}, using default")
-            prompts = {"Default Prompt": "You are a helpful voice AI assistant."}
-
-        instructions = prompts.get("Default Prompt", "You are a helpful voice AI assistant.")
-        self.agent_voice = settings["settings"].get("agent_voice", "aura-asteria-en")
+        config = load_company_config(company_tag)
+        instructions = config["instructions"]
+        self.agent_voice = config["agent_voice"]
 
         super().__init__(
             instructions=instructions,
@@ -89,7 +73,7 @@ async def entrypoint(ctx: JobContext):
         llm=openai.LLM(model="gpt-4o-mini", temperature=0.9),
         # Speech-to-text (STT) is your agent's ears, turning the user's speech into text that the LLM can understand
         # See all available models at https://docs.livekit.io/agents/models/stt/
-        stt="assemblyai/universal-streaming:en",
+        stt=deepgram.STT(),
         # Text-to-speech (TTS) is your agent's voice, turning the LLM's text into speech that the user can hear
         # See all providers at https://docs.livekit.io/agents/integrations/tts/
         #tts=cartesia.TTS(voice="6f84f4b8-58a2-430c-8c79-688dad597532"),
